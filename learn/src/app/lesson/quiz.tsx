@@ -43,14 +43,13 @@ async function mintNFT(account: AptosAccount, lessonNumber: number, lessonType: 
 
         const payload = {
             type: "entry_function_payload",
-            function: '0x6bb456c08eed50086f44e94256604993b24ba9ed5f80927c8867870a3f04941c::nft::mint_nft',
+            function: `0x6bb456c08eed50086f44e94256604993b24ba9ed5f80927c8867870a3f04941c::nft::mint_nft`,
             arguments: [lessonNumber, lessonType, completionDate],
             type_arguments: [],
         };
 
         console.log('Generated payload:', payload);
-
-        const rawTransaction = await client.generateTransaction(account.address(), payload);
+                  const rawTransaction = await client.generateTransaction(account, payload);
         console.log('Generated raw transaction:', rawTransaction);
 
         const signedTxn = await client.signTransaction(account, rawTransaction);
