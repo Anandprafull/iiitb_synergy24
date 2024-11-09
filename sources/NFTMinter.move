@@ -1,6 +1,5 @@
 module kannada_mitra::nft {
     use std::signer;
-    use std::vector;
     use aptos_framework::event;
 
     struct LessonNFT has key {
@@ -23,7 +22,7 @@ module kannada_mitra::nft {
     }
 
     #[event]
-    struct NFTMinted has drop {
+    struct NFTMinted has store, drop {
         lesson_number: u64,
         owner: address,
     }
