@@ -17,7 +17,7 @@ async function mintNFT(account: AptosAccount, lessonNumber: number, lessonType: 
 
         const payload = {
             type: "entry_function_payload",
-            function: "0x6bb456c08eed50086f44e94256604993b24ba9ed5f80927c8867870a3f04941c::kannada_mitra::mint_nft",
+            function: "0x5cf30d908c13aaa9aaa18721651745a3b29a21b92e0a66cdf883f455603d3a17::kannada_mitra::mint_nft",
             arguments: [lessonNumber, lessonType, completionDate],
             type_arguments: [],
         };
@@ -70,8 +70,9 @@ const LessonPage = async () => {
   console.log('Completed Challenges:', completedChallenges);
   console.log('Initial Percentage:', initialPercentage);
 
-  // Check if the lesson is completed
-  if (initialPercentage === 100) {
+  // Check if all challenges are completed
+  const allChallengesCompleted = lesson.challenges.every(challenge => challenge.completed);
+  if (allChallengesCompleted) {
     console.log('Lesson completed, minting NFT...');
     const lessonNumber = lesson.id; // Use the actual lesson ID
     const lessonType = "Word"; // or "Phrase", "Sentence"

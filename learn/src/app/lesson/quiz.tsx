@@ -1,11 +1,12 @@
 "use client";
 
+import { AptosClient, AptosAccount, TxnBuilderTypes } from 'aptos';
 import Image from "next/image";
 import { toast } from "sonner";
 import ReactConfetti from "react-confetti";
 import { useRouter } from "next/navigation";
 import { useMount, useWindowSize } from "react-use";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition, useEffect } from "react";
 
 import Header from "./header";
 import Footer from "./footer";
@@ -30,6 +31,43 @@ import {
   DEFAULT_POINTS_START,
   POINTS_PER_CHALLENGE,
 } from "@/constants";
+
+
+// Initialize the Aptos client
+const client = new AptosClient('https://fullnode.devnet.aptoslabs.com');
+
+// Function to mint an NFT
+async function mintNFT(account: AptosAccount, lessonNumber: number, lessonType: string, completionDate: string) {
+    try {
+        console.log('Minting NFT with details:', { lessonNumber, lessonType, completionDate });
+
+        const payload = {
+            type: "entry_function_payload",
+            function: '0x6bb456c08eed50086f44e94256604993b24ba9ed5f80927c8867870a3f04941c::nft::mint_nft',
+            arguments: [lessonNumber, lessonType, completionDate],
+            type_arguments: [],
+        };
+
+        console.log('Generated payload:', payload);
+
+        const rawTransaction = await client.generateTransaction(account.address(), payload);
+        console.log('Generated raw transaction:', rawTransaction);
+
+        const signedTxn = await client.signTransaction(account, rawTransaction);
+        console.log('Signed transaction:', signedTxn);
+
+        const response = await client.submitTransaction(signedTxn);
+        console.log('Submitted transaction, response:', response);
+
+        await client.waitForTransaction(response.hash);
+        console.log('Transaction confirmed with hash:', response.hash);
+
+        return response;
+    } catch (error) {
+        console.error('Error minting NFT:', error);
+        throw error;
+    }
+};
 
 type QuizProps = {
   initialLessonId: number;
@@ -59,6 +97,8 @@ const Quiz = ({
 
   const { open: openHeartsModal } = useHeartsModal();
   const { open: openPracticeModal } = usePracticeModal();
+
+  const [hasMinted, setHasMinted] = useState(false); // State to track if NFT has been minted
 
   useMount(() => {
     if (initialPercentage === 100) {
@@ -153,6 +193,13 @@ const Quiz = ({
             // this is a practice challenge
             if (initialPercentage === 100) {
               setHearts((prev) => Math.min(prev + 1, DEFAULT_HEARTS_MAX));
+            }
+
+            // Trigger NFT minting if not already minted
+            if (!hasMinted) {
+              const account = new AptosAccount(); // Create a new AptosAccount instance
+              mintNFT(account, lessonId, "lessonType", new Date().toISOString());
+              setHasMinted(true); // Set to true to prevent further minting
             }
           })
           .catch(() => toast.error("Something went wrong. Please try again."));
