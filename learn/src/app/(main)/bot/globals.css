@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", sans-serif; /* Updated to use the specified font */
+  margin: 0;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+
+.chat-bubble.dark {
+  background-color: rgba(51, 51, 51, 0.8); /* Dark theme background color */
+  color: var(--foreground); /* Dark theme text color */
+}
+
+.user-message {
+  margin-bottom: 5px;
+}
+
+.translation {
+  font-weight: bold;
+}
+
+/* Glassmorphism Effect */
+
+.glass {
+  background: rgba(255, 255, 255, 0.3); /* semi-transparent white */
+  backdrop-filter: blur(10px);
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.w-full.p-8.glass.flex-grow {
+  overflow-y: scroll;
+}
+.neon-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 255, 0.5),
+    rgba(0, 255, 255, 0.5)
+  );
+  filter: blur(8px);
+  z-index: -1;
+  animation: pulse 10s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.chat-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 5px; /* Reduced margin-bottom */
+  font-weight: bold; /* Makes all text within chat bubbles bold */
+
+}
+
+.user-message {
+  background: linear-gradient(to right, #b2d7ff, #8ebdff); /* Blue gradient for user messages */
+  color: #333; /* Dark text for user messages */
+  border-radius: 10px 10px 10px 0; /* Rounded corner on the left side */
+  padding: 15px 20px;
+}
+
+.translation-message {
+  background: linear-gradient(to right, #eee69f, #8afa94); /* Green gradient for translation messages */
+  color: #555; /* Darker text for translation messages */
+  border-radius: 10px 10px 0 10px; /* Rounded corner on the right side */
+}
+
+.dark .user-message {
+  background: linear-gradient(to right, #333, #444); /* Dark blue gradient for user messages in dark mode */
+  color: #f0f0f0; /* Light text for user messages in dark mode */
+  border-radius: 10px 10px 10px 0; /* Rounded corner on the left side */
+}
+
+.dark .translation-message {
+  background: linear-gradient(to right, #444, #555); /* Dark green gradient for translation messages in dark mode */
+  color: #ccc; /* Lighter text for translation messages in dark mode */
+  border-radius: 10px 10px 0 10px; /* Rounded corner on the right side */
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
