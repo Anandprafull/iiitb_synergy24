@@ -9,16 +9,23 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 import json
 import re
+from dotenv import load_dotenv
+import os
 
 # Initialize Google's Generative AI for translation
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve the Google API key from environment variables
+G_API = os.getenv("GOOGLE_API_KEY")
+
 llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-flash",
     temperature=0,
     max_tokens=None,
     timeout=None,
     max_retries=2,
-    google_api_key="AIzaSyDIG-JhAjoTJPZV_M5CGzjhIX8klNbXm3I"
-
+    google_api_key=G_API
 )
 
 @tool
